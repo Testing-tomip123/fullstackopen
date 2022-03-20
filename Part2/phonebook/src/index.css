@@ -1,0 +1,9 @@
+.confirmation {
+  color: green;
+  background-color: #f0fff0;
+    border: 1px solid green;   
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    font-size: 1.2em;
+}

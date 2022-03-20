@@ -3,6 +3,7 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import Personfetch from './components/personFetch'
+import PopUp from './components/popup'
 
 
 const App = () => {
@@ -10,6 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     Personfetch.fetchAll()
@@ -71,6 +73,11 @@ const App = () => {
         )
       }
     }
+    setMessage(`Added ${newName}`)
+    setTimeout(() => {
+      setMessage(null)
+    }, 5000)
+
     setNewName('')
     setNewNumber('')
   }
@@ -80,6 +87,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <PopUp message={message} />
       <Filter name={filter} handleFilterChange={handleFilterChange} />
       <h2>add a new</h2>
       <PersonForm addPerson={addPerson} newName={newName} newNumber={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />
