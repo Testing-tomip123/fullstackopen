@@ -19,4 +19,10 @@ const remove = async (id) => {
   return response
 }
 
-export default { fetchAll: fetchAll, create: create, remove: remove }
+const update = async (newPerson, id) => {
+  const request = axios.put(Url + `/` + id.toString(), newPerson)
+  const response = await request
+  return response.data
+}
+
+export default { fetchAll: fetchAll, create: create, remove: remove, update: update }

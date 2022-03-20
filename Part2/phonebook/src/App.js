@@ -55,13 +55,24 @@ const App = () => {
     Personfetch.create(newPerson)
       .then(returnedPerson => {
         setPersons(persons.concat(returnedPerson))
-        setNewName('')
-        setNewNumber('')
       })
-
+      
     } else {
-      alert(`${newName} is already added to phonebook`)
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        const id = persons.find(person => person.name === newName).id
+        const newPerson = {
+          name: newName,
+          number: newNumber
+        }
+        Personfetch.update(newPerson, id)
+          .then(returnedPerson => {
+            setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
+          }
+        )
+      }
     }
+    setNewName('')
+    setNewNumber('')
   }
 
   const personsToShow = persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
