@@ -39,7 +39,15 @@ const App = () => {
     if (window.confirm(`Delete ${person.name}?`)) {
       Personfetch.remove(id)
         .then(response => {
-            setPersons(persons.filter(person => person.id !== id))
+          setPersons(persons.filter(person => person.id !== id))
+        })
+        .catch(error => {
+          console.log(error)
+          setMessage(`Information of ${person.name} has already been removed from server`)
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
+          setPersons(persons.filter(person => person.id !== id))
         })
     }
   }
@@ -59,6 +67,11 @@ const App = () => {
         setPersons(persons.concat(returnedPerson))
       })
       
+      setMessage(`Added ${newName}`)
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
+      
     } else {
       if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
         const id = persons.find(person => person.name === newName).id
@@ -69,15 +82,14 @@ const App = () => {
         Personfetch.update(newPerson, id)
           .then(returnedPerson => {
             setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
+            setMessage(`Updated ${newName}`)
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
           }
         )
       }
     }
-    setMessage(`Added ${newName}`)
-    setTimeout(() => {
-      setMessage(null)
-    }, 5000)
-
     setNewName('')
     setNewNumber('')
   }

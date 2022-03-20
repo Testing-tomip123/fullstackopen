@@ -7,3 +7,13 @@
     margin: 10px;
     font-size: 1.2em;
 }
+
+.errorMessage {
+  color: red;
+  background-color: #ffd5d5;
+    border: 1px solid red;   
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    font-size: 1.2em;
+}

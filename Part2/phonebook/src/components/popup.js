@@ -4,9 +4,21 @@ const PopUp = ({ message }) => {
     if (message === null) {
         return null
     }
-    return (
-        <div className="confirmation">{message}</div>
-    )
+    if (message.includes('Added') || message.includes('Updated')) {
+        return (
+            <div className="confirmation">
+                <p>{message}</p>
+            </div>
+        )
+    }
+        
+    if (message.includes('already')) {
+        return (
+            <div className="errorMessage">
+                <p>{message}</p>
+            </div>
+        )
+    }
 }
 
 export default PopUp
