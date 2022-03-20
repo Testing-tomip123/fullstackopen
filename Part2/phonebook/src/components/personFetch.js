@@ -7,10 +7,16 @@ const fetchAll = async () => {
   return response.data
 }
 
-const create = async (person) => {
-  const request = axios.post(Url, person)
+const create = async (newPerson) => {
+  const request = axios.post(Url, newPerson)
   const response = await request
   return response.data
 }
 
-export default { fetchAll: fetchAll, create: create }
+const remove = async (id) => {
+  const request = axios.delete(Url + `/` + id.toString())
+  const response = await request
+  return response
+}
+
+export default { fetchAll: fetchAll, create: create, remove: remove }

@@ -30,6 +30,18 @@ const App = () => {
     setFilter(event.target.value)
   }
 
+  const deletePersonFromServer = (event) => {
+    event.preventDefault()
+    const id = parseInt(event.target.value)
+    const person = persons.find(person => person.id === id)
+    if (window.confirm(`Delete ${person.name}?`)) {
+      Personfetch.remove(id)
+        .then(response => {
+            setPersons(persons.filter(person => person.id !== id))
+        })
+    }
+  }
+
   const addPerson = (event) => {
     event.preventDefault()
     var isUnique = persons.every(person => person.name !== newName)
@@ -61,7 +73,7 @@ const App = () => {
       <h2>add a new</h2>
       <PersonForm addPerson={addPerson} newName={newName} newNumber={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
-      <Persons personsToShow={personsToShow} />
+      <Persons personsToShow={personsToShow} deletePerson={deletePersonFromServer} />
     </div>
   )
 }
