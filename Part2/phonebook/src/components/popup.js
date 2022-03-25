@@ -12,7 +12,7 @@ const PopUp = ({ message }) => {
         )
     }
         
-    if (message.includes('already')) {
+    else {
         return (
             <div className="errorMessage">
                 <p>{message}</p>

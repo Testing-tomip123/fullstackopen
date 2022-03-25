@@ -65,12 +65,21 @@ const App = () => {
     Personfetch.create(newPerson)
       .then(returnedPerson => {
         setPersons(persons.concat(returnedPerson))
+        setMessage(`Added ${newPerson.name}`)
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
+
+      })
+      .catch(error => {
+        console.log(error.response.data.error)
+        setMessage(`${JSON.stringify(error.response.data.error)}`)
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
       })
       
-      setMessage(`Added ${newName}`)
-      setTimeout(() => {
-        setMessage(null)
-      }, 5000)
+      
       
     } else {
       if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
