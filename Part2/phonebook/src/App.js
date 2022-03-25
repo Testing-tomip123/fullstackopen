@@ -34,7 +34,7 @@ const App = () => {
 
   const deletePersonFromServer = (event) => {
     event.preventDefault()
-    const id = parseInt(event.target.value)
+    const id = (event.target.value)
     const person = persons.find(person => person.id === id)
     if (window.confirm(`Delete ${person.name}?`)) {
       Personfetch.remove(id)
