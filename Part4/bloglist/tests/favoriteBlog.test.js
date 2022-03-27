@@ -1,4 +1,4 @@
-const favoriteBlog = require('../utils/list_helper').favoriteBlog
+const {favoriteBlog} = require('../utils/list_helper')
 
 describe('max likes', () => {
 
