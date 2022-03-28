@@ -1,4 +1,6 @@
 const Blog = require('../models/blog')
+const User = require('../models/user')
+const bcrypt = require('bcrypt')
 
 exports.getBlogs = async function(req, res, next) {
   const blogs = await Blog.find({})
@@ -43,4 +45,21 @@ exports.updateBlog = async function(req, res, next) {
   else {
     res.status(404).json({ error: 'blog not found' })
   }
+}
+
+exports.createUser = async function(req, res, next) {
+  const saltRounds = 10
+  const passwordHash = await bcrypt.hash(req.body.password, saltRounds)
+  const user = new User({
+    username: req.body.username,
+    name: req.body.name,
+    passwordHash: passwordHash
+  })
+  const savedUser = await user.save()
+  res.status(201).send(savedUser)
+}
+
+exports.getUsers = async function(req, res, next) {
+  const users = await User.find({})
+  res.status(200).json(users)
 }
