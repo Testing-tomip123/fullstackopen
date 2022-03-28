@@ -109,6 +109,39 @@ describe('when there is initially some blogs saved', () => {
         expect(response.body.length).toBe(initialBlogs.length);
 
     })
+
+    test('deleting a blog works', async () => {
+        const response = await api.get('/api/blogs');
+        const blogToDelete = response.body[0];
+        const blogId = blogToDelete._id;
+
+        await api
+            .delete(`/api/blogs/${blogId}`)
+            .expect(204)
+
+        const response2 = await api.get('/api/blogs');
+        expect(response2.body.length).toBe(initialBlogs.length - 1);
+    })
+
+    test('updating a blog works', async () => {
+        const response = await api.get('/api/blogs');
+        const blogToUpdate = response.body[0];
+        const blogId = blogToUpdate._id;
+        const updatedBlog = {
+            title: "Updated blog",
+            author: "Updated author",
+            url: "https://updated.com",
+            likes: 23
+        }
+
+        await api
+            .put(`/api/blogs/${blogId}`)
+            .send(updatedBlog)
+            .expect(200)
+
+        const response2 = await api.get('/api/blogs');
+        expect(response2.body[0].title).toBe('Updated blog');
+    })
 })
 
 afterAll(() => {

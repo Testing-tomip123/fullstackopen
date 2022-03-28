@@ -19,3 +19,28 @@ exports.createBlog = async function(req, res, next) {
     res.status(201).json(savedBlog)
   }
 }
+
+exports.deleteBlog = async function(req, res, next) {
+  const blog = await Blog.findByIdAndRemove(req.params.id)
+  if (blog) {
+    res.status(204).json(blog)
+  } else {
+    res.status(404).json({ error: 'blog not found' })
+  }
+}
+
+exports.updateBlog = async function(req, res, next) {
+  const blog = {
+    title: req.body.title,
+    author: req.body.author,
+    url: req.body.url,
+    likes: req.body.likes || 0
+  }
+  const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, blog, { new: true })
+  if (updatedBlog) {
+    res.status(200).json(updatedBlog)
+  }
+  else {
+    res.status(404).json({ error: 'blog not found' })
+  }
+}
