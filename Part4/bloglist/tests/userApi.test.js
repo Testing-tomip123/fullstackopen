@@ -2,6 +2,7 @@ const supertest = require('supertest');
 const app = require('../app');
 const mongoose = require('mongoose');
 const User = require('../models/user');
+const e = require('express');
 
 const api = supertest(app);
 
@@ -42,6 +43,97 @@ describe('User api', () => {
         const usernames = users.map(u => u.username);
         expect(usernames).toContain(newUser.username);
   
+    })
+
+    test('password is hashed correctly', async () => {
+        const newUser = {
+            username: 'new user',
+            name: 'New User',
+            password: 'secret',
+        }
+
+        await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(201)
+            .expect('Content-Type', /application\/json/)
+
+        const user = await User.findOne({ username: newUser.username });
+        expect(user.password).not.toBe(newUser.password);
+    })
+
+    test('password length is at least 3 characters', async () => {
+        const newUser = {
+            username: 'new user',
+            name: 'New User',
+            password: 'se',
+        }
+
+        await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+
+        expect(await User.countDocuments()).toBe(1);
+
+        const res = await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+
+        expect(res.body.error).toContain('username and password must be at least 3 characters');
+    })
+
+    test('username length is at least 3 characters', async () => {
+        const newUser = {
+            username: 'nu',
+            name: 'New User',
+            password: 'secret',
+        }
+
+        await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+
+        expect(await User.countDocuments()).toBe(1);
+
+        const res = await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+
+        expect(res.body.error).toContain('username and password must be at least 3 characters');
+
+    })
+
+    test('creation fails with proper statuscode and message if username already taken', async () => {
+        const newUser = {
+            username: 'root',
+            name: 'Superuser',
+            password: 'secret',
+        }
+
+        await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+
+        expect(await User.countDocuments()).toBe(1);
+        
+        const res = await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+
+        expect(res.body.error).toContain('Username should be unique');
+
     })
     
 })
