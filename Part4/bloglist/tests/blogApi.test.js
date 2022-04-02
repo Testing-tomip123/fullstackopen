@@ -3,22 +3,28 @@ const mongoose = require('mongoose');
 const supertest = require('supertest');
 const app = require('../app');
 const Blog = require('../models/blog');
-
+const User = require('../models/user');
 const api = supertest(app);
+
+// Remember to change the userId to the correct userId, otherwise the test will fail
+
 const initialBlogs = [
     {
         title: "React patterns",
         author: "Michael Chan",
         url: "https://reactpatterns.com/",
         likes: 7,
+        userId: "624776ef5a45060371d91e52"
       },
       {
         title: "Go To Statement Considered Harmful",
         author: "Edsger W. Dijkstra",
         url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
         likes: 5,
+        userId: "624776ef5a45060371d91e52"
       }
 ]
+
 
 beforeEach(async () => {
     await Blog.deleteMany({});
@@ -54,7 +60,8 @@ describe('when there is initially some blogs saved', () => {
             title: "Test blog",
             author: "Test author",
             url: "https://test.com",
-            likes: 23
+            likes: 23,
+            userId: "624776ef5a45060371d91e52"
         }
 
         await api
@@ -74,7 +81,8 @@ describe('when there is initially some blogs saved', () => {
         const newBlog = {
             title: "Test blog2",
             author: "Test author2",
-            url: "https://test2.com"
+            url: "https://test2.com",
+            userId: "624776ef5a45060371d91e52"
         }
 
         await api
