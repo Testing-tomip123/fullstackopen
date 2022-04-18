@@ -1,5 +1,6 @@
 const Blog = require('../models/blog')
 const User = require('../models/user')
+const jsonWebToken = require('jsonwebtoken')
 
 
 exports.getBlogs = async function(req, res, next) {
@@ -7,22 +8,38 @@ exports.getBlogs = async function(req, res, next) {
   res.status(200).json(blogs)
 }
 
+const getTokenFrom = (request) => {
+  const authorization = request.get('authorization')
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    return authorization.substring(7)
+  }
+  return null
+}
+
 exports.createBlog = async function(req, res, next) {
-  if (!req.body.title && !req.body.url) {
+  if (!req.body.title || !req.body.url) {
     return res.status(400).json({ error: 'title and url are required' })
   } else {
-    const user = await User.findById(req.body.userId)
+    var token = getTokenFrom(req)
+    const decodedToken = jsonWebToken.verify(token, process.env.SECRET)
+    if (!token || !decodedToken.id) {
+      return res.status(401).json({ error: 'token missing or invalid' })
+    }
+
+    const user = await User.findById(decodedToken.id)
 
     const blog = new Blog({
       title: req.body.title,
       author: req.body.author,
       url: req.body.url,
-      likes: req.body.likes || 0,
+      likes: req.body.likes  || 0,
       user: user._id
     })
+    
     const savedBlog = await blog.save()
     user.blogs = user.blogs.concat(savedBlog._id)
     await user.save()
+
     res.status(201).json(savedBlog)
   }
 }
