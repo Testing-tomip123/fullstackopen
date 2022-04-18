@@ -12,16 +12,7 @@ exports.createBlog = async function(req, res, next) {
   if (!req.body.title || !req.body.url) {
     return res.status(400).json({ error: 'title and url are required' })
   } else {
-    
-    const token = req.token
-    const decodedToken = jsonWebToken.verify(token, process.env.SECRET)
-
-    if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' })
-    }
-
-    const user = await User.findById(decodedToken.id)
-
+    const user = req.user
     const blog = new Blog({
       title: req.body.title,
       author: req.body.author,
@@ -39,11 +30,15 @@ exports.createBlog = async function(req, res, next) {
 }
 
 exports.deleteBlog = async function(req, res, next) {
-  const blog = await Blog.findByIdAndRemove(req.params.id)
-  if (blog) {
-    res.status(204).json(blog)
-  } else {
-    res.status(404).json({ error: 'blog not found' })
+  const blogId = req.params.id
+  const user = req.user
+  const blog = await Blog.findById(blogId)
+  if (blog.user.toString() === user._id.toString()) {
+    await Blog.findByIdAndRemove(blogId)
+    res.status(204).end()
+  }
+  else {
+    res.status(401).json({ error: 'not authorized' })
   }
 }
 
