@@ -18,7 +18,7 @@ loginRouter.getLogin = async function(req, res, next) {
         id: user._id,
     }
 
-    const token = jsonwebtoken.sign(userForToken, process.env.SECRET)
+    const token = jsonwebtoken.sign(userForToken, process.env.SECRET, { expiresIn: 60 * 60 })
 
     res.status(200).json({ token, username: user.username, name: user.name })
 }
