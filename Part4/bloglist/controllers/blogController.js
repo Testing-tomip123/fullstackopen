@@ -8,20 +8,14 @@ exports.getBlogs = async function(req, res, next) {
   res.status(200).json(blogs)
 }
 
-const getTokenFrom = (request) => {
-  const authorization = request.get('authorization')
-  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    return authorization.substring(7)
-  }
-  return null
-}
-
 exports.createBlog = async function(req, res, next) {
   if (!req.body.title || !req.body.url) {
     return res.status(400).json({ error: 'title and url are required' })
   } else {
-    var token = getTokenFrom(req)
+    
+    const token = req.token
     const decodedToken = jsonWebToken.verify(token, process.env.SECRET)
+
     if (!token || !decodedToken.id) {
       return res.status(401).json({ error: 'token missing or invalid' })
     }

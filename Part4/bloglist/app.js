@@ -7,6 +7,7 @@ const blogRouter = require('./routers/blogRouter')
 const loginRouter = require('./routers/loginRouter')
 const userRouter = require('./routers/userRouter')
 const logger = require('./utils/logger')
+const middleware = require('./utils/middleware')
 
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true , useUnifiedTopology: true })
   .then(() => {
@@ -18,6 +19,7 @@ mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true , useUnifiedTopolog
 
 app.use(cors())
 app.use(express.json())
+app.use(middleware.tokenExtractor)
 app.use('/', blogRouter)
 app.use('/', loginRouter)
 app.use('/', userRouter)
