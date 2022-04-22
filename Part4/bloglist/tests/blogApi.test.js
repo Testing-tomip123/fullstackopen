@@ -29,6 +29,7 @@ const initialBlogs = [
 beforeEach(async () => {
     await Blog.deleteMany({});
     await Blog.insertMany(initialBlogs);
+
 })
 
 describe('when there is initially some blogs saved', () => {
