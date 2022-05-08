@@ -104,11 +104,12 @@ const App = () => {
   }
 
   const handleDelete = async (blog) => {
-    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
+    if (window.confirm(`Delete blog ${blog.title} by ${blog.author}?`)) {
       await blogService.remove({
         id: blog.id,
       })
       setUpdate(Math.random())
+      setMessage({ content: `Blog ${blog.title} by ${blog.author} deleted`, type: 'success' })
     }
   }
 

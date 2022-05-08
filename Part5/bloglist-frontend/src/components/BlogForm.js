@@ -80,7 +80,7 @@ const BlogForm = ({ createBlog }) => {
             onChange={handleLikesChange}
           />
         </div>
-        <button type="submit">create</button>
+        <button id="create-button" type="submit">create</button>
       </form>
     </div>
   )
