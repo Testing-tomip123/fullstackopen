@@ -130,7 +130,7 @@ const App = () => {
               <Blog
                 key={blog.id}
                 blog={blog}
-                handleLikes={handelLike}
+                handleLike={handelLike}
                 handleDelete={handleDelete}
               />
             ))}

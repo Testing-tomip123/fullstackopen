@@ -47,18 +47,7 @@ const Blog = ({ blog, handleLike, handleDelete }) => {
 }
 
 Blog.propTypes = {
-  setUpdate: PropTypes.func.isRequired,
-  blogs: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
-    likes: PropTypes.number.isRequired,
-    user: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      username: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
-    }),
-  }).isRequired,
+  blog: PropTypes.object.isRequired,
   handleLike: PropTypes.func.isRequired,
   handleDelete: PropTypes.func.isRequired,
 }
