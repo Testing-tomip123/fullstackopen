@@ -35,10 +35,14 @@ const Blog = ({ blog, handleLike, handleDelete }) => {
             {blog.user.name}
             <button onClick={() => handleDelete(blog)}>remove</button>
           </p>
+          <p>
+            <button onClick={toggleVisibility}>hide</button>
+          </p>
         </div>
       ) : (
         <div>
           <h3>{blog.title}</h3>
+          <p>{blog.author}</p>
           <button onClick={toggleVisibility}>show</button>
         </div>
       )}
@@ -47,9 +51,13 @@ const Blog = ({ blog, handleLike, handleDelete }) => {
 }
 
 Blog.propTypes = {
-  blog: PropTypes.object.isRequired,
-  handleLike: PropTypes.func.isRequired,
-  handleDelete: PropTypes.func.isRequired,
+  setUpdate: PropTypes.func,
+  blog: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    likes: PropTypes.number.isRequired,
+  }),
 }
 
 
