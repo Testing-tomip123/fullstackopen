@@ -6,9 +6,9 @@
 }
 
 .notification-success {
-  background-color: #4caf50;
+  background-color: rgb(0, 255, 0);
 }
 
 .notification-error {
-  background-color: #f44336;
+  background-color: rgb(255, 0, 0);
 }

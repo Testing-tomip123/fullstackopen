@@ -11,8 +11,8 @@ import BlogForm from './components/BlogForm'
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [message, setMessage] = useState(null)
-  const [username, setUsername] = useState('tes')
-  const [password, setPassword] = useState('abc')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   const [update, setUpdate] = useState(null)
   const [user, setUser] = useState(null)
   const blogFormRef = useRef()
@@ -122,7 +122,7 @@ const App = () => {
         </div>
       ) : (
         <div>
-          <h2>blogs</h2>
+          <h2>Blogs</h2>
           {userLogged()}
           {blogForm()}
           {blogs.sort((a, b) => (a.likes > b.likes ? -1 : 1)) &&
