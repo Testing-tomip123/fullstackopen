@@ -1,4 +1,4 @@
-const Notification = () => {
+const Notification = (props) => {
   const style = {
     border: 'solid',
     padding: 10,
@@ -6,9 +6,12 @@ const Notification = () => {
   }
   return (
     <div style={style}>
-      render here notification...
+      {props.store.getState().notification}
     </div>
   )
 }
 
 export default Notification
+
+
+

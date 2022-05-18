@@ -1,12 +1,14 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { Provider } from 'react-redux'
+import ReactDOM from 'react-dom'
 import App from './App'
 import store from './store'
 
+const rootElement = () => {
+  ReactDOM.render(
+    <App store={store} />,
+    document.getElementById('root')
+  )
+}
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <Provider store={store}>
-    <App />
-  </Provider>
-)
+rootElement()
+store.subscribe(rootElement)
