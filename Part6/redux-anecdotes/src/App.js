@@ -1,23 +1,37 @@
-import React from "react"
-import AnecdoteForm from "./components/AncedoteForm"
-import AnecdoteList from "./components/AncedoteList"
-import Notification from './components/Notification'
+import { useEffect } from "react"
+import { initializeAnecdotes } from "./reducers/anecdoteReducer"
+import { useDispatch } from "react-redux"
+import Anecdotes from "./components/AnecdoteList"
+import AnecdoteForm from "./components/AnecdoteForm"
 import Filter from "./components/Filter"
+import Notification from "./components/Notification"
 
-const App = (props) => {
+const App = () => {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(initializeAnecdotes())
+  }, [dispatch])
+
   return (
-    <div>
-      <h2>Anecdotes</h2>
-      <Filter store={props.store} />
-      {
-        props.store.getState().notification
-          ? <Notification store={props.store} />
-          : null
-      }
-      <AnecdoteList store={props.store} />
-      <AnecdoteForm store={props.store} />
+    <div style={{ margin: 10,
+      padding: 10,
+      border: "1px solid #ccc",
+      borderRadius: 5,
+      backgroundColor: "#f0f0f0" }}>
+
+      <h2 style={{ margin: 10,
+        padding: 10,
+        border: "1px solid #ccc",
+        borderRadius: 5,
+        backgroundColor: "#f0f0f0",
+        fontWeight: "bold" }}>Anecdotes</h2>
+      <Notification />
+      <Filter />
+      <Anecdotes />
+      <AnecdoteForm />
     </div>
   )
 }
 
-export default App
+export default App;
