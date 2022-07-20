@@ -1,55 +1,58 @@
 /** @format */
 
-import axios from 'axios'
-const baseUrl = '/api/blogs'
+import instance from '../config/axios'
 
-let token = null
+const blogsUrl = 'blogs'
 
-const setToken = newToken => {
-    token = `bearer ${newToken}`
+/**
+ * Get all the blogs from the server
+ */
+const getAll = () => {
+    const request = instance.get(blogsUrl)
+    return request.then(response => response.data)
 }
 
-const getAll = async () => {
-    const request = axios.get(baseUrl)
-    const response = await request
-    return response.data
+/**
+ * Create a blog on the server
+ * @param {Object} payload
+ */
+const create = payload => {
+    const request = instance.post(blogsUrl, payload)
+    return request.then(response => response.data)
 }
 
-const create = async newObject => {
-    const config = {
-        headers: { Authorization: token },
-    }
-
-    const response = await axios.post(baseUrl, newObject, config)
-    return response.data
+/**
+ * Update a blog on the server
+ * @param {Object} payload
+ */
+const update = payload => {
+    const request = instance.put(`${blogsUrl}/${payload.id}`, payload)
+    return request.then(response => response.data)
 }
 
-const update = async blog => {
-    const config = {
-        headers: { Authorization: token },
-    }
-
-    const response = await axios.put(
-        `${baseUrl}/${blog.id}`,
-        { likes: blog.likes },
-        config
-    )
-    return response.data
+/**
+ * Delete a blog on the server
+ * @param {Object} payload
+ */
+const remove = payload => {
+    const request = instance.delete(`${blogsUrl}/${payload.id}`)
+    return request.then(response => response.data)
 }
 
-const remove = async blog => {
-    const config = {
-        headers: { Authorization: token },
-    }
-
-    const response = await axios.delete(`${baseUrl}/${blog.id}`, config)
-    return response.data
+/**
+ * Add a comment to a blog
+ * @param {Object} payload
+ */
+const comment = ({ blogId, comment }) => {
+    const request = instance.post(`${blogsUrl}/${blogId}/comments`, { comment })
+    return request.then(response => response.data)
 }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
     getAll,
     create,
-    setToken,
     update,
     remove,
+    comment,
 }
