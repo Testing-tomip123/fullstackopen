@@ -71,7 +71,7 @@ export const likeBlog = id => {
         const blogs = getState().blogs
         const blog = blogs.find(blog => blog.id === id)
         const payload = {
-            ...blog,
+            id,
             likes: blog.likes + 1,
         }
 
@@ -120,18 +120,14 @@ export const commentBlog = ({ id, comment }) => {
  * @param {ObjectId data type} id
  * @param {function} dispatch
  */
-export const deletedBlog = id => {
+export const deleteBlog = id => {
     return async dispatch => {
-        if (window.confirm(`Delete blog ${id}?`)) {
-            try {
-                await blogService.remove({ id })
-                dispatch(removeBlog({ id }))
-                // Notify user if blog was deleted
-                dispatch(notification(`Blog ${id} deleted`))
-            } catch (error) {
-                // Notify user if blog could not be deleted
-                dispatch(notification('Blog could not be deleted'))
-            }
+        try {
+            await blogService.remove({ id })
+            dispatch(removeBlog({ id }))
+        } catch (error) {
+            // Notify user if blog could not be deleted
+            dispatch(notification('Blog could not be deleted'))
         }
     }
 }

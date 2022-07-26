@@ -43,8 +43,8 @@ const remove = payload => {
  * Add a comment to a blog
  * @param {Object} payload
  */
-const comment = ({ blogId, comment }) => {
-    const request = instance.post(`${blogsUrl}/${blogId}/comments`, { comment })
+const comment = ({ id, comment }) => {
+    const request = instance.post(`${blogsUrl}/${id}/comment`, { comment })
     return request.then(response => response.data)
 }
 

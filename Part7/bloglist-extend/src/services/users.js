@@ -10,7 +10,7 @@ const usersUrl = 'users'
  */
 const getAll = async () => {
     const response = await instance.get(usersUrl)
-    return response.then(response => response.data)
+    return response.data
 }
 
 /**
@@ -20,7 +20,7 @@ const getAll = async () => {
  */
 const oneUser = id => {
     const response = instance.get(`${usersUrl}/${id}`)
-    return response.then(response => response.data)
+    return response.data
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export

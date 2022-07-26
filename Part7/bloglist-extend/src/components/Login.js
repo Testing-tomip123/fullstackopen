@@ -6,6 +6,8 @@ import { useField } from '../hooks'
 import { login } from '../reducers/authReducer'
 import { notification } from '../reducers/notificationReducer'
 
+import { Button, Form } from 'react-bootstrap'
+
 const Login = () => {
     // Dispatch is used to dispatch actions to the reducer
     const dispatch = useDispatch()
@@ -33,15 +35,31 @@ const Login = () => {
     }
 
     return (
-        <div>
-            <h2>Login</h2>
-            <form onSubmit={handleSubmit}>
-                Username:
-                <input {...username} />
-                Password:
-                <input {...password} />
-                <button type="submit">login</button>
-            </form>
+        <div className="login">
+            <h2 className="login-header">Login</h2>
+            <Form onSubmit={handleSubmit}>
+                <Form.Group controlId="formBasicUsername">
+                    <Form.Label>Username</Form.Label>
+                    <Form.Control
+                        type="text"
+                        placeholder="Username"
+                        {...username}
+                    />
+                </Form.Group>
+
+                <Form.Group controlId="formBasicPassword">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control
+                        type="password"
+                        placeholder="Password"
+                        {...password}
+                    />
+                </Form.Group>
+
+                <Button variant="primary" type="submit">
+                    Login
+                </Button>
+            </Form>
         </div>
     )
 }

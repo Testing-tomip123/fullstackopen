@@ -6,7 +6,6 @@
     "insertPragma": true,
     "proseWrap": "never",
     "bracketSpacing": true,
-    "jsxBracketSameLine": false,
     "arrowParens": "avoid",
     "requirePragma": false,
     "useTabs": false

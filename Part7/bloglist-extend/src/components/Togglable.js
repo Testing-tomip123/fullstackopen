@@ -1,12 +1,15 @@
 /** @format */
 
 import { useState, forwardRef, useImperativeHandle } from 'react'
+import { Button, Modal } from 'react-bootstrap'
 
 const Togglable = forwardRef((props, ref) => {
     const [visible, setVisible] = useState(false)
 
-    const hideWhenVisible = { display: visible ? 'none' : '' }
-    const showWhenVisible = { display: visible ? '' : 'none' }
+    const hideWhenVisible = {
+        display: visible ? 'none' : '',
+        textAlign: 'center',
+    }
 
     const toggleVisibility = () => {
         setVisible(!visible)
@@ -19,14 +22,22 @@ const Togglable = forwardRef((props, ref) => {
     })
 
     return (
-        <div>
+        <div className="container">
             <div style={hideWhenVisible}>
-                <button onClick={toggleVisibility}>{props.buttonLabel}</button>
+                <Button variant="primary" onClick={toggleVisibility}>
+                    {props.buttonLabel}
+                </Button>
             </div>
-            <div style={showWhenVisible}>
+
+            <Modal show={visible} onHide={toggleVisibility} centered size="lg">
                 {props.children}
-                <button onClick={toggleVisibility}>cancel</button>
-            </div>
+
+                <Modal.Footer className="d-flex justify-content-center">
+                    <Button variant="secondary" onClick={toggleVisibility}>
+                        Cancel
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     )
 })

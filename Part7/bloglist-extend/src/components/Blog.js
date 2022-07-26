@@ -1,73 +1,40 @@
 /** @format */
 
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
-const Blog = ({ blog, handleLike, handleDelete }) => {
-    const [showFull, setShowFull] = useState(false)
+import { Card } from 'react-bootstrap'
 
-    const blogStyle = {
-        padding: '10px',
-        border: 'solid',
-        borderWidth: '1px',
-        marginBottom: '5px',
-        borderRadius: '5px',
-        backgroundColor: '#f2f2f2',
-        fontSize: '1.2rem',
-    }
-
-    const toggleVisibility = () => {
-        setShowFull(!showFull)
-    }
-
+const Blog = ({ blog }) => {
     return (
-        <div style={blogStyle} className="blog">
-            {showFull ? (
-                <div>
-                    <h3>{blog.title}</h3>
-                    <p>{blog.author}</p>
-                    <p>{blog.url}</p>
-                    <p>
-                        likes {blog.likes}
-                        <button
-                            className="like"
-                            onClick={() => handleLike(blog.id, blog.likes)}
-                        >
-                            like
-                        </button>
-                    </p>
-                    <p>
-                        {blog.user.name}
-                        <button
-                            className="delete"
-                            onClick={() => handleDelete(blog)}
-                        >
-                            remove
-                        </button>
-                    </p>
-                    <p>
-                        <button onClick={toggleVisibility}>hide</button>
-                    </p>
-                </div>
-            ) : (
-                <div>
-                    <h3>{blog.title}</h3>
-                    <p>{blog.author}</p>
-                    <button onClick={toggleVisibility}>show</button>
-                </div>
-            )}
-        </div>
+        <Card style={{ width: '18rem' }}>
+            <Card.Body>
+                <Card.Title>{blog.title}</Card.Title>
+                <Card.Subtitle className="mb-2 text-muted">
+                    {blog.author}
+                </Card.Subtitle>
+                <Card.Text>
+                    <Card.Link as={Link} to={`/blogs/${blog.id}`}>
+                        Read more...
+                    </Card.Link>
+                </Card.Text>
+                <Card.Text>
+                    <Card.Text>
+                        <span className="likes">{blog.likes || 0} likes</span>
+                    </Card.Text>
+                    <Card.Text>
+                        <span className="comments">
+                            {blog.comments.length || 0} comments
+                        </span>
+                    </Card.Text>
+                    <Card.Text>
+                        <span className="added-by">
+                            Added by {blog.user.username}
+                        </span>
+                    </Card.Text>
+                </Card.Text>
+            </Card.Body>
+        </Card>
     )
-}
-
-Blog.propTypes = {
-    setUpdate: PropTypes.func,
-    blog: PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        author: PropTypes.string.isRequired,
-        url: PropTypes.string.isRequired,
-        likes: PropTypes.number.isRequired,
-    }),
 }
 
 export default Blog

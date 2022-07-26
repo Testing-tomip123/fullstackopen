@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, Route, Routes, useMatch, useNavigate } from 'react-router-dom'
+import { Route, Routes, useMatch, useNavigate } from 'react-router-dom'
 
 import { initializeAuth, logout } from './reducers/authReducer'
 import { initializeBlogs } from './reducers/blogReducer'
@@ -10,23 +10,11 @@ import { getUser } from './reducers/userReducer'
 
 import Login from './components/Login'
 import Nav from './components/Navbar'
-
-// Home page
-const Home = () => {
-    return (
-        <div>
-            <h2>Blogs</h2>
-            <ul>
-                <li>
-                    <Link to="/blogs/1">Blog 1</Link>
-                </li>
-                <li>
-                    <Link to="/blogs/2">Blog 2</Link>
-                </li>
-            </ul>
-        </div>
-    )
-}
+import Notification from './components/Notification'
+import Home from './components/Home'
+import BlogDetails from './components/BlogDetails'
+import UserDetails from './components/UserDetails'
+import UserList from './components/UserList'
 
 // The main app
 const App = () => {
@@ -82,14 +70,27 @@ const App = () => {
 
     return (
         <div className="App">
-            <Nav user={auth} logoff={logoff} />
-            <div className="content">
-                <h2 className="text-2xl">{loggedIn ? 'Blogs' : 'Login'}</h2>
+            <div className="navbar">
+                {loggedIn && <Nav user={auth} logoff={logoff} />}
+            </div>
+            <Notification />
+            <div className="container">
+                <h2 className="Logged">{loggedIn}</h2>
                 <Routes>
                     <Route path="/" element={loggedIn ? <Home /> : <Login />} />
+                    <Route
+                        path="blogs/:id"
+                        element={<BlogDetails blog={blog} />}
+                    />
+                    <Route path="users" element={<UserList />} />
+                    <Route
+                        path="users/:id"
+                        element={<UserDetails user={user} />}
+                    />
                 </Routes>
             </div>
         </div>
     )
 }
+
 export default App
