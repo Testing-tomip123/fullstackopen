@@ -139,7 +139,7 @@ const resolvers = {
             }
             return result
         },
-        allAuthors: (root) =>
+        allAuthors: root =>
             authors.map(author => ({
                 ...author,
                 bookCount: books.filter(book => book.author === author.name)
@@ -157,7 +157,7 @@ const resolvers = {
                 })
             }
             const book = { ...args, id: uuid() }
-            books.push(book)
+            books = books.concat(book)
             return book
         },
         editAuthor: (root, args) => {
@@ -165,8 +165,9 @@ const resolvers = {
             if (!author) {
                 return null
             }
-            author.born = args.setBornTo
-            return author
+            const updatedBook = { ...args, born: args.setBornTo }
+            authors = authors.map(a => (a.id === author.id ? updatedBook : a))
+            return updatedBook
         },
     },
 }
