@@ -20,7 +20,7 @@ const AddBlog = ({ toggleRef }) => {
         toggleRef.current.toggleVisibility()
     }
 
-    const handleSubmit = event => {
+    const handleSubmit = (event) => {
         event.preventDefault()
         dispatch(
             createBlog({

@@ -24,7 +24,7 @@ const BlogDetails = ({ blog }) => {
             navigate('/')
         }
     }
-    const handleComment = event => {
+    const handleComment = (event) => {
         event.preventDefault()
         dispatch(commentBlog({ id: blog.id, comment: comment.value }))
         resetComment()

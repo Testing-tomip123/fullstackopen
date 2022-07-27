@@ -30,8 +30,7 @@ const App = () => {
     // Initialize the auth when the app starts
     useEffect(() => {
         dispatch(initializeAuth())
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [dispatch])
 
     useEffect(() => {
         // If not logged in, don't do anything

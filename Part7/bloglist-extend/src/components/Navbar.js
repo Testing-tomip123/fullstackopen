@@ -25,6 +25,7 @@ const NavbarComponent = ({ user, logoff }) => {
                                 style={{
                                     display: 'flex',
                                     alignItems: 'center',
+                                    color: 'white',
                                 }}
                             >
                                 {user.username} logged in{' '}
@@ -32,6 +33,7 @@ const NavbarComponent = ({ user, logoff }) => {
                                     variant="outline-light"
                                     onClick={logoff}
                                     className="text-sm"
+                                    style={{ marginLeft: '1rem' }}
                                 >
                                     Logout
                                 </Button>{' '}
