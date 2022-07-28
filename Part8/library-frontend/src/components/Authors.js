@@ -1,14 +1,71 @@
 /** @format */
 
-const Authors = props => {
-    if (!props.show) {
-        return null
+import { useState } from 'react'
+import { useMutation, useQuery } from '@apollo/client'
+import { ALL_AUTHORS, EDIT_AUTHOR } from '../api/queries'
+
+const AuthorAddBirthYear = () => {
+    const [name, setName] = useState('')
+    const [born, setBorn] = useState('')
+    const { data: authors } = useQuery(ALL_AUTHORS)
+
+    const [editAuthor] = useMutation(EDIT_AUTHOR, {
+        refetchQueries: [{ query: ALL_AUTHORS }],
+    })
+
+    const submit = async e => {
+        e.preventDefault()
+        editAuthor({ variables: { name, setBornTo: parseInt(born) } })
+        setName('')
+        setBorn('')
     }
-    const authors = []
 
     return (
         <div>
-            <h2>authors</h2>
+            <h2>Set birthyear</h2>
+            <form onSubmit={submit}>
+                <div>
+                    name
+                    <select
+                        value={name}
+                        onChange={({ target }) => setName(target.value)}
+                    >
+                        {authors &&
+                            authors.allAuthors.map(a => (
+                                <option key={a.name} value={a.name}>
+                                    {a.name}
+                                </option>
+                            ))}
+                    </select>
+                </div>
+                <div>
+                    born
+                    <label>
+                        <input
+                            type="number"
+                            value={born}
+                            onChange={({ target }) => setBorn(target.value)}
+                        />
+                    </label>
+                </div>
+                <button type="submit">update author</button>
+            </form>
+        </div>
+    )
+}
+
+const Authors = props => {
+    const { loading, error, data } = useQuery(ALL_AUTHORS)
+
+    if (!props.show) return null
+    if (error) return <div>Error: {error.message}</div>
+    if (loading) return <div>Loading...</div>
+
+    const authors = data.allAuthors
+
+    return (
+        <div>
+            <h2>Authors</h2>
             <table>
                 <tbody>
                     <tr>
@@ -25,6 +82,7 @@ const Authors = props => {
                     ))}
                 </tbody>
             </table>
+            <AuthorAddBirthYear />
         </div>
     )
 }
