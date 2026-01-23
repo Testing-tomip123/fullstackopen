@@ -3,12 +3,6 @@
 Welcome to my comprehensive journey through the **Full Stack Open** course by the University of Helsinki. This repository serves as a deep dive into modern JavaScript-based web development, covering everything from the basics of React to advanced concepts like GraphQL and CI/CD.
 
 <p align="center">
-  <a href="https://fullstackopen.com/">
-    <img src="https://img.shields.io/badge/Full_Stack_Open-2026-blueviolet?style=for-the-badge&logo=universityofhelsinki" alt="Full Stack Open 2026" />
-  </a>
-</p>
-
-<p align="center">
   <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
   <img src="https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white" />
   <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" />
